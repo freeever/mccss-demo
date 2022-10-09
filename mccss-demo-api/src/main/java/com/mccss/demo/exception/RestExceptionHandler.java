@@ -29,8 +29,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ MccssException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorInfo> handleDocStoreException(MccssException ex) {
-        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex);
+    public ResponseEntity<ErrorInfo> handleMccssException(MccssException ex, WebRequest req) {
+        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex, req);
         log.error(errorInfo.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorInfo);
     }
@@ -38,8 +38,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ MccssDataAccessException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorInfo> handleDocStoreDataAccessException(MccssDataAccessException ex) {
-        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex);
+    public ResponseEntity<ErrorInfo> handleMccssDataAccessException(MccssDataAccessException ex, WebRequest req) {
+        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex, req);
         log.error(errorInfo.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo);
     }
@@ -47,8 +47,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ MccssValidationException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorInfo> handleDocStoreAuthenticationException(MccssValidationException ex) {
-        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex);
+    public ResponseEntity<ErrorInfo> handleMccssValidationException(MccssValidationException ex, WebRequest req) {
+        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex, req);
         log.error(errorInfo.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo);
     }
@@ -66,8 +66,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-    private ErrorInfo buildErrorInfo(int httpStatusCode, MccssException ex) {
-        String message = messageSource.getMessage(ex.getMessageCode(), ex.getArguments(), Locale.getDefault());
+    private ErrorInfo buildErrorInfo(int httpStatusCode, MccssException ex, WebRequest req) {
+        String message = messageSource.getMessage(ex.getMessageCode(), ex.getArguments(), req.getLocale());
         return new ErrorInfo(httpStatusCode, message);
     }
 }
