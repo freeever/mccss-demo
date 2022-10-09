@@ -1,4 +1,9 @@
 {
+  "nav.title": "Navbar",
+  "nav.home": "Home",
+  "nav.features": "Features",
+  "nav.contactus": "Contact us",
+
   "registration.title": "Registration",
   "registration.first.name": "First Name",
   "registration.last.name": "Last Name",

@@ -1,4 +1,9 @@
 {
+  "nav.title": "Barre de navigation",
+  "nav.home": "Maison",
+  "nav.features": "Fonctionnalités",
+  "nav.contactus": "Contactez-nous",
+
   "site.title": "MCCSS Interview Demo",
   "registration.title": "Inscription",
   "registration.first.name": "Prénom",

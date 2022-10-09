@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { LanguageInterceptor } from './interceptor/language.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     })
   ],
   exports: [],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

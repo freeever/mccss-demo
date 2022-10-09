@@ -37,6 +37,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           takeWhile(() => this.alive)
         )
         .subscribe();
+    } else {
+      Object.keys(this.f.controls).forEach(field => { // {1}
+        const control = this.f.get(field);            // {2}
+        control?.markAsTouched({ onlySelf: true });    // {3}
+      });
     }
   }
 
