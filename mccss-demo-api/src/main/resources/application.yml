@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mccss?useSSL=false
+    username: mccssuser
+    password: Passw0rd
+  jpa:
+    properties:
+      hibernate:
+        idalect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
