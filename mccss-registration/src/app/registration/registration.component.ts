@@ -1,8 +1,8 @@
 import { FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
-import { takeWhile } from 'rxjs';
+import { catchError, of, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -14,8 +14,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   alive = true;
   registrationForm: FormGroup;
-
-  constructor(private userService: UserService) { }
+  errors: string[] = [];
+  changeDetectorRef: ChangeDetectorRef;
+  constructor(injector: Injector,
+    private userService: UserService) {
+      this.changeDetectorRef = injector.get(ChangeDetectorRef);
+    }
 
   ngOnInit(): void {
     this.bindForm();
@@ -30,19 +34,34 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   registerFn() {
+    this.resetErrors();
     if (this.f.valid) {
       const user = new User().toModel(this.f);
       this.userService.addUser(user)
         .pipe(
-          takeWhile(() => this.alive)
+          takeWhile(() => this.alive),
+          catchError(err => {
+            this.errors.push(err.message);
+            this.cd();
+            return of(err.message);
+          })
         )
-        .subscribe();
+        .subscribe(
+        );
     } else {
-      Object.keys(this.f.controls).forEach(field => { // {1}
-        const control = this.f.get(field);            // {2}
-        control?.markAsTouched({ onlySelf: true });    // {3}
+      Object.keys(this.f.controls).forEach(field => {
+        const control = this.f.get(field);
+        control?.markAsTouched({ onlySelf: true });
       });
     }
+  }
+
+  private resetErrors() {
+    this.errors = [];
+  }
+
+  cd() {
+    this.changeDetectorRef.markForCheck()
   }
 
   get f() {

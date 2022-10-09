@@ -1,4 +1,7 @@
 <h2 class="mb-4">{{ 'registration.title' | translate }}</h2>
+<div *ngFor="let err of errors" class="alert alert-danger alert-dismissible fade show">
+  {{ err }}
+</div>
 <form novalidate [formGroup]="f" (submit)="registerFn()">
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
@@ -30,7 +33,7 @@
           </div>
       </div>
   </div>
-  <button type="submit" class="btn btn-primary px-4 float-end mt-2">
+  <button type="submit" class="btn btn-primary px-4 float-end mt-2" [disabled]="!f.valid">
     {{ 'registration.btn.register' | translate }}
   </button>
 </form>

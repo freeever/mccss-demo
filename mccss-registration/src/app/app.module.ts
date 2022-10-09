@@ -11,6 +11,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LanguageInterceptor } from './interceptor/language.interceptor';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LanguageInterceptor } from './interceptor/language.interceptor';
   ],
   exports: [],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
