@@ -46,8 +46,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           takeWhile(() => this.alive),
           tap(res => {
             this.findAllUsers();
-            this.createResponse(true);}
-          ),
+            this.createResponse(true);
+            this.f.reset();
+          }),
           catchError(err => {
             this.createResponse(false, err.message);
             return of(err.message);
