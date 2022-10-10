@@ -15,17 +15,17 @@
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
           <label for="firstName">{{ 'registration.first.name' | translate }}</label>
-          <input type="text" class="form-control" id="firstName" formControlName="firstName" autocomplete="disabled">
+          <input type="text" class="form-control" id="firstName" formControlName="firstName">
       </div>
       <div class="col-sm-6">
           <label for="lastName">{{ 'registration.last.name' | translate }}</label>
-          <input type="text" class="form-control" id="lastName" formControlName="lastName" autocomplete="disabled">
+          <input type="text" class="form-control" id="lastName" formControlName="lastName">
       </div>
   </div>
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
           <label for="email">{{ 'registration.email' | translate }}</label>
-          <input type="text" class="form-control" id="email" formControlName="email" autocomplete="disabled">
+          <input type="text" class="form-control" id="email" formControlName="email">
           <!-- Validation error -->
           <div *ngIf="email?.touched && email?.invalid" class="alert alert-danger mt-1">
             <span *ngIf="email?.errors?.['required']">{{ 'err.registration.email.required' | translate }}</span>
@@ -34,7 +34,7 @@
       </div>
       <div class="col-sm-6">
           <label for="postalCode">{{ 'registration.postal.code' | translate }}</label>
-          <input type="text" class="form-control" id="postalCode" formControlName="postalCode" autocomplete="disabled">
+          <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
           <!-- Validation error -->
           <div *ngIf="postalCode?.touched && postalCode?.invalid" class="alert alert-danger mt-1">
             <span *ngIf="postalCode?.errors?.['required']">{{ 'err.registration.postal.code.required' | translate }}</span>
