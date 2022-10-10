@@ -1,4 +1,4 @@
-package com.mccss.demo;
+package com.mccss.demo.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
