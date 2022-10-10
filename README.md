@@ -6,11 +6,18 @@ This is a demo solution for MCCSS user registration, which include both frontend
 
 ## Get started
 
-### Install MySQL
+### Setup MySQL
 
-Install MySQL database, or run MySQL using docker.
+#### Option 1
++ Install MySQL database
++ Initialize database based on *DB_SCRIPTS/mccss_ddl.sql*
 
-Initialize database based on *DB_SCRIPTS/mccss_ddl.sql*
+#### Option 2
+Run MySQL using docker
+```shell
+cd DB_SCRIPTS
+docker compose up
+```
 
 ### Clone the repo
 
