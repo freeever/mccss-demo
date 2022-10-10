@@ -1,9 +1,11 @@
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mccss?useSSL=false
+    url: jdbc:mysql://localhost:3306/mccss?useSSL=false&allowPublicKeyRetrieval=true
     username: mccssuser
     password: Passw0rd
+    connection-timeout: 1000
+    wait-timeout: 1000
   jpa:
     properties:
       hibernate:

@@ -1,12 +1,15 @@
 -- Create database
+DROP DATABASE IF EXISTS mccss;
 CREATE database mccss;
 
 -- Create DB user and grant privileges
 CREATE USER 'mccssuser'@'%' IDENTIFIED BY 'Passw0rd';
 GRANT ALL PRIVILEGES ON mccss.* TO 'mccssuser'@'%';
 
+USE mccss;
+
 -- Create table
-CREATE TABLE IF NOT EXISTS USER (
+CREATE TABLE user (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name varchar(50) NULL,
     last_name varchar(50) NULL,

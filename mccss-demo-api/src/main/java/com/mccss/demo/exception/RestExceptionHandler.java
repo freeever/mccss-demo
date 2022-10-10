@@ -1,5 +1,6 @@
 package com.mccss.demo.exception;
 
+import com.mccss.demo.common.MessageCode;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -35,15 +36,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorInfo);
     }
 
-    @ExceptionHandler({ MccssDataAccessException.class })
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorInfo> handleMccssDataAccessException(MccssDataAccessException ex, WebRequest req) {
-        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex, req);
-        log.error(errorInfo.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo);
-    }
-
     @ExceptionHandler({ MccssValidationException.class })
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -51,6 +43,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.BAD_REQUEST.value(), ex, req);
         log.error(errorInfo.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo);
+    }
+
+    @ExceptionHandler({ Exception.class })
+    @ResponseBody
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorInfo> handleMccssDataAccessException(Exception ex, WebRequest req) {
+        MccssException mccssException = new MccssException();
+        mccssException.setMessageCode(MessageCode.SYSTEM_ERROR);
+        ErrorInfo errorInfo = this.buildErrorInfo(HttpStatus.INTERNAL_SERVER_ERROR.value(), mccssException, req);
+        log.error(errorInfo.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorInfo);
     }
 
     @Override
