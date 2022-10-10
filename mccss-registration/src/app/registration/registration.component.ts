@@ -14,6 +14,7 @@ import { MccsHttpResponse } from '../model/mccs-response.model';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
 
+  users$: Observable<User[]> = this.userService.users;
   response$: Observable<MccsHttpResponse> = this.notificationservice.registrationError;
 
   alive = true;
@@ -26,6 +27,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bindForm();
+    this.findAllUsers();
   }
 
   ngOnDestroy(): void {
@@ -42,13 +44,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.userService.addUser(user)
         .pipe(
           takeWhile(() => this.alive),
-          tap(res => this.createResponse(true)),
+          tap(res => {
+            this.findAllUsers();
+            this.createResponse(true);}
+          ),
           catchError(err => {
             this.createResponse(false, err.message);
             return of(err.message);
           })
-        )
-        .subscribe(
+        ).subscribe(
         );
     } else {
       Object.keys(this.f.controls).forEach(field => {
@@ -56,6 +60,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         control?.markAsTouched({ onlySelf: true });
       });
     }
+  }
+
+  findAllUsers() {
+    this.userService.findAll()
+      .pipe(
+        takeWhile(() => this.alive),
+        tap(res => this.userService.setUsers(res))
+      ).subscribe(
+      )
   }
 
   createResponse(success: boolean, message?: string) {

@@ -5,6 +5,7 @@
   "nav.contactus": "Contactez-nous",
 
   "site.title": "MCCSS Interview Demo",
+  "registration.id": "Identifiant",
   "registration.title": "Inscription",
   "registration.first.name": "Prénom",
   "registration.last.name": "nom de famille",
@@ -16,7 +17,6 @@
 
   "err.registration.email.required": "L'e-mail est requis",
   "err.registration.email.invalid": "Le courriel est invalide",
-  "err.registration.email.exists": "L'e-mail {{email}} existe déjà",
   "err.registration.postal.code.required": "Le code postal est requis",
   "err.registration.postal.code.invalid": "Le code postal est invalide"
 }

@@ -5,7 +5,7 @@
     {{ 'registration.save.success' | translate }}
   </div>
   <ng-container *ngIf="!response.success && response.messages && response.messages.length > 0">
-    <div *ngFor="let message of response.messages"class="alert alert-danger" role="alert">
+    <div *ngFor="let message of response.messages" class="alert alert-danger" role="alert">
       {{ message }}
     </div>
   </ng-container>
@@ -15,17 +15,17 @@
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
           <label for="firstName">{{ 'registration.first.name' | translate }}</label>
-          <input type="text" class="form-control" id="firstName" formControlName="firstName">
+          <input type="text" class="form-control" id="firstName" formControlName="firstName" autocomplete="disabled">
       </div>
       <div class="col-sm-6">
           <label for="lastName">{{ 'registration.last.name' | translate }}</label>
-          <input type="text" class="form-control" id="lastName" formControlName="lastName">
+          <input type="text" class="form-control" id="lastName" formControlName="lastName" autocomplete="disabled">
       </div>
   </div>
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
           <label for="email">{{ 'registration.email' | translate }}</label>
-          <input type="text" class="form-control" id="email" formControlName="email">
+          <input type="text" class="form-control" id="email" formControlName="email" autocomplete="disabled">
           <!-- Validation error -->
           <div *ngIf="email?.touched && email?.invalid" class="alert alert-danger mt-1">
             <span *ngIf="email?.errors?.['required']">{{ 'err.registration.email.required' | translate }}</span>
@@ -34,7 +34,7 @@
       </div>
       <div class="col-sm-6">
           <label for="postalCode">{{ 'registration.postal.code' | translate }}</label>
-          <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
+          <input type="text" class="form-control" id="postalCode" formControlName="postalCode" autocomplete="disabled">
           <!-- Validation error -->
           <div *ngIf="postalCode?.touched && postalCode?.invalid" class="alert alert-danger mt-1">
             <span *ngIf="postalCode?.errors?.['required']">{{ 'err.registration.postal.code.required' | translate }}</span>
@@ -46,3 +46,28 @@
     {{ 'registration.btn.register' | translate }}
   </button>
 </form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">{{ 'registration.id' | translate }}</th>
+      <th scope="col">{{ 'registration.first.name' | translate }}</th>
+      <th scope="col">{{ 'registration.last.name' | translate }}</th>
+      <th scope="col">{{ 'registration.email' | translate }}</th>
+      <th scope="col">{{ 'registration.postal.code' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="users$ | async as users">
+      <tr *ngFor="let user of users">
+        <th scope="row">{{ user.id }}</th>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.postalCode }}</td>
+      </tr>
+
+    </ng-container>
+  </tbody>
+</table>
+

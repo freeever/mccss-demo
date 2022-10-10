@@ -5,6 +5,7 @@
   "nav.contactus": "Contact us",
 
   "registration.title": "Registration",
+  "registration.id": "Id",
   "registration.first.name": "First Name",
   "registration.last.name": "Last Name",
   "registration.email": "Email",
@@ -15,7 +16,6 @@
 
   "err.registration.email.required": "Email is required",
   "err.registration.email.invalid": "Email is invalid",
-  "err.registration.email.exists": "Email {{email}} already exists",
   "err.registration.postal.code.required": "Postal code is required",
   "err.registration.postal.code.invalid": "Postal code is invalid"
 }
