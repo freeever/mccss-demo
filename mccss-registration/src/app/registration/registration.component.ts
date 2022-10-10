@@ -1,8 +1,10 @@
+import { NotificationService } from './../service/notification.service';
 import { FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
-import { catchError, of, takeWhile } from 'rxjs';
+import { catchError, of, takeWhile, Observable, tap } from 'rxjs';
+import { MccsHttpResponse } from '../model/mccs-response.model';
 
 @Component({
   selector: 'app-registration',
@@ -12,13 +14,14 @@ import { catchError, of, takeWhile } from 'rxjs';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
 
+  response$: Observable<MccsHttpResponse> = this.notificationservice.registrationError;
+
   alive = true;
   registrationForm: FormGroup;
-  errors: string[] = [];
-  changeDetectorRef: ChangeDetectorRef;
+
   constructor(injector: Injector,
-    private userService: UserService) {
-      this.changeDetectorRef = injector.get(ChangeDetectorRef);
+              private userService: UserService,
+              private notificationservice: NotificationService) {
     }
 
   ngOnInit(): void {
@@ -34,15 +37,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   registerFn() {
-    this.resetErrors();
     if (this.f.valid) {
       const user = new User().toModel(this.f);
       this.userService.addUser(user)
         .pipe(
           takeWhile(() => this.alive),
+          tap(res => this.createResponse(true)),
           catchError(err => {
-            this.errors.push(err.message);
-            this.cd();
+            this.createResponse(false, err.message);
             return of(err.message);
           })
         )
@@ -56,12 +58,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  private resetErrors() {
-    this.errors = [];
-  }
+  createResponse(success: boolean, message?: string) {
+    const response: MccsHttpResponse = {
+      success: success,
+      messages: message ? [message] : []
+    }
 
-  cd() {
-    this.changeDetectorRef.markForCheck()
+    this.notificationservice.setRegistrationError(response);
   }
 
   get f() {

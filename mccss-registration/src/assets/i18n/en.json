@@ -11,6 +11,8 @@
   "registration.postal.code": "Postal Code",
   "registration.btn.register": "Register",
 
+  "registration.save.success": "Thanks for registration!",
+
   "err.registration.email.required": "Email is required",
   "err.registration.email.invalid": "Email is invalid",
   "err.registration.email.exists": "Email {{email}} already exists",

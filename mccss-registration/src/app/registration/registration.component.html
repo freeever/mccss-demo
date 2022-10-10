@@ -1,7 +1,16 @@
 <h2 class="mb-4">{{ 'registration.title' | translate }}</h2>
-<div *ngFor="let err of errors" class="alert alert-danger alert-dismissible fade show">
-  {{ err }}
-</div>
+
+<ng-container *ngIf="response$ | async as response">
+  <div *ngIf="response.success" class="alert alert-success" role="alert">
+    {{ 'registration.save.success' | translate }}
+  </div>
+  <ng-container *ngIf="!response.success && response.messages && response.messages.length > 0">
+    <div *ngFor="let message of response.messages"class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+  </ng-container>
+</ng-container>
+
 <form novalidate [formGroup]="f" (submit)="registerFn()">
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
