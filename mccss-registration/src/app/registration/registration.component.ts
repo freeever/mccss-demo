@@ -44,17 +44,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.userService.addUser(user)
         .pipe(
           takeWhile(() => this.alive),
-          tap(res => {
+        ).subscribe({
+          next: (res) => {
             this.findAllUsers();
             this.createResponse(true);
             this.f.reset();
-          }),
-          catchError(err => {
-            this.createResponse(false, err.message);
-            return of(err.message);
-          })
-        ).subscribe(
-        );
+          },
+          error: (err) => this.createResponse(false, err.message)
+        });
     } else {
       Object.keys(this.f.controls).forEach(field => {
         const control = this.f.get(field);

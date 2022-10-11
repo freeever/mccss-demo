@@ -1,11 +1,13 @@
 <h2 class="mb-4">{{ 'registration.title' | translate }}</h2>
 
 <ng-container *ngIf="response$ | async as response">
-  <div *ngIf="response.success" class="alert alert-success" role="alert">
+  <div *ngIf="response.success" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     {{ 'registration.save.success' | translate }}
   </div>
   <ng-container *ngIf="!response.success && response.messages && response.messages.length > 0">
-    <div *ngFor="let message of response.messages" class="alert alert-danger" role="alert">
+    <div *ngFor="let message of response.messages" class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       {{ message }}
     </div>
   </ng-container>
