@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CookieModule } from 'ngx-cookie';
 import { RegistrationComponent } from './registration/registration.component';
 
+type PathMatch = "full" | "prefix" | undefined;
+
 const routes: Routes = [
-  { path: '', redirectTo: 'registration', pathMatch: 'full' },
+  { path: '', redirectTo: 'registration', pathMatch: 'full' as PathMatch },
   { path: 'registration', component: RegistrationComponent },
 ];
 

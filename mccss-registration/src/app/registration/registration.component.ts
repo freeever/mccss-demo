@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { CookieService } from 'ngx-cookie';
 import { NotificationService } from './../service/notification.service';
 import { User } from '../model/user.model';
@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   response$: Observable<MccsHttpResponse> = this.notificationservice.registrationError;
 
   alive = true;
-  registrationForm: FormGroup;
+  registrationForm: UntypedFormGroup;
 
   constructor(injector: Injector,
               private userService: UserService,
