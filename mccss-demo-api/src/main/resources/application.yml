@@ -1,3 +1,13 @@
+server:
+  port: 8977
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/docstoremongorest.p12
+    key-store-password: docstore321
+    key-alias: docstoremongorest
+  http:
+    port: 8088
+
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
