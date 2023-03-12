@@ -1,6 +1,7 @@
-import { NotificationService } from './../service/notification.service';
-import { FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { CookieService } from 'ngx-cookie';
+import { NotificationService } from './../service/notification.service';
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
 import { catchError, of, takeWhile, Observable, tap } from 'rxjs';
@@ -22,7 +23,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   constructor(injector: Injector,
               private userService: UserService,
-              private notificationservice: NotificationService) {
+              private notificationservice: NotificationService,
+              private cookieService: CookieService) {
     }
 
   ngOnInit(): void {
@@ -69,6 +71,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       )
   }
 
+  addCookie() {
+    this.cookieService.put(this.cookieName, this.cookieValue);
+  }
+
+  delCookie() {
+    this.cookieService.remove(this.cookieName);
+  }
+
+  getCookie(key: string) {
+    return this.cookieService.get(key);
+  }
+
   createResponse(success: boolean, message?: string) {
     const response: MccsHttpResponse = {
       success: success,
@@ -96,5 +110,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   get postalCode() {
     return this.f?.get("postalCode");
+  }
+
+  get cookieName(): string {
+    return this.f?.get("cookieName")?.value;
+  }
+
+  get cookieValue(): string {
+    return this.f?.get("cookieValue")?.value;
   }
 }

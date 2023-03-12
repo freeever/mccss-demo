@@ -2,10 +2,13 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BaseModel } from "./base.model";
 
 export class User extends BaseModel {
-  firstName: String;
-  lastName: String;
-  email: String;
-  postalCode: String;
+  firstName: string;
+  lastName: string;
+  email: string;
+  postalCode: string;
+
+  cookieName: string;
+  cookieValue: string;
 
   constructor(init? : Partial<User>) {
     super();
@@ -26,7 +29,10 @@ export class User extends BaseModel {
         ]}
       ),
       createdOn: new FormControl(this.createdOn),
-      updatedOn: new FormControl(this.updatedOn)
+      updatedOn: new FormControl(this.updatedOn),
+
+      cookieName: new FormControl(this.cookieName),
+      cookieValue: new FormControl(this.cookieValue)
     });
   }
 
@@ -39,7 +45,10 @@ export class User extends BaseModel {
       email: v.email,
       postalCode: v.postalCode,
       createdOn: v.createdOn,
-      updatedOn: v.updatedOn
+      updatedOn: v.updatedOn,
+
+      cookieName: v.cookieName,
+      cookieValue: v.cookieValue
     })
   }
 
