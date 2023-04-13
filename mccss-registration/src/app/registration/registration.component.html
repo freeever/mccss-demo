@@ -43,10 +43,14 @@
             <span *ngIf="postalCode?.errors?.['pattern']">{{ 'err.registration.postal.code.invalid' | translate }}</span>
           </div>
       </div>
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary px-4 float-end mt-2" [disabled]="!f.valid">
+          {{ 'registration.btn.register' | translate }}
+        </button>
+      </div>
   </div>
-  <button type="submit" class="btn btn-primary px-4 float-end mt-2" [disabled]="!f.valid">
-    {{ 'registration.btn.register' | translate }}
-  </button>
+
+  <br/>
 
   <div class="form-group mb-2 row">
     <div class="col-sm-6">
@@ -58,12 +62,14 @@
         <input type="text" class="form-control" id="cookieValue" formControlName="cookieValue">
     </div>
   </div>
-  <button type="button" (click)="addCookie()" class="btn btn-primary px-4 float-end mt-2">
-    Add Cookie
-  </button>
-  <button type="button" (click)="delCookie()" class="btn btn-primary px-4 float-end mt-2">
-    Delete Cookie
-  </button>
+  <div class="col-sm-12">
+      <button type="button" (click)="addCookie()" class="btn btn-primary px-4 float-end mt-2">
+        Add Cookie
+      </button>
+      <button type="button" (click)="delCookie()" class="btn btn-primary px-4 float-end mt-2">
+        Delete Cookie
+      </button>
+  </div>
 </form>
 
 <table class="table">
