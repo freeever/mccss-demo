@@ -20,7 +20,8 @@ public class ApplicationConfig {
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory> cookieProcessorCustomizer() {
         return (TomcatServletWebServerFactory factory) -> {
             // also listen on http
-            final Connector connector = new Connector();
+            final Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+            connector.setScheme("http");
             connector.setPort(httpPort);
             factory.addAdditionalTomcatConnectors(connector);
         };
