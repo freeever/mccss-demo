@@ -9,7 +9,10 @@
   "registration.first.name": "First Name",
   "registration.last.name": "Last Name",
   "registration.email": "Email",
+  "registration.avatar": "Avatar",
   "registration.postal.code": "Postal Code",
+  "registration.diploma": "Diploma",
+
   "registration.btn.register": "Register",
 
   "registration.save.success": "Thanks for registration!",
@@ -17,5 +20,8 @@
   "err.registration.email.required": "Email is required",
   "err.registration.email.invalid": "Email is invalid",
   "err.registration.postal.code.required": "Postal code is required",
-  "err.registration.postal.code.invalid": "Postal code is invalid"
+  "err.registration.postal.code.invalid": "Postal code is invalid",
+
+  "err.file.size": "File cannot exceed {max} MB",
+  "err.file.type": "Invalid file type"
 }

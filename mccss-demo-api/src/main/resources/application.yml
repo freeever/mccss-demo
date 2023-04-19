@@ -1,5 +1,5 @@
 server:
-  port: 8977
+  port: 8443
   ssl:
     key-store-type: PKCS12
     key-store: classpath:keystore/docstoremongorest.p12
@@ -21,3 +21,6 @@ spring:
       hibernate:
         idalect: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { CookieService } from 'ngx-cookie';
 import { NotificationService } from './../service/notification.service';
 import { User } from '../model/user.model';
 import { UserService } from '../service/user.service';
-import { catchError, of, takeWhile, Observable, tap } from 'rxjs';
+import { takeWhile, Observable, tap } from 'rxjs';
 import { MccsHttpResponse } from '../model/mccs-response.model';
+import { AcceptedFileExtensions } from '../conf/constants';
 
 @Component({
   selector: 'app-registration',
@@ -42,8 +43,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   registerFn() {
     if (this.f.valid) {
-      const user = new User().toModel(this.f);
-      this.userService.addUser(user)
+      const formData = new User().toModel(this.f);
+      this.userService.addUser(formData)
         .pipe(
           takeWhile(() => this.alive),
         ).subscribe({
@@ -69,6 +70,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         tap(res => this.userService.setUsers(res))
       ).subscribe(
       )
+  }
+
+  onAvatarFileChange(event: any) {
+    this.avatar?.markAsTouched();
+    this.avatar?.patchValue(event.target.files[0]);
+    console.log('avatar.errors', this.avatar);
+
+  }
+
+  onDiplomaFileChange(event: any) {
+    this.diploma?.markAsTouched();
+    this.diploma?.patchValue(event.target.files[0]);
+  }
+
+  isInvalid(control: AbstractControl): boolean | null {
+    return control && control.touched && control.invalid
   }
 
   addCookie() {
@@ -108,8 +125,25 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return this.f?.get("email");
   }
 
+  get avatar() {
+    return this.f?.get("avatar");
+  }
+
+  get avatarInput() {
+    return this.f?.get("avatarInput");
+    this.f?.get("avatarInput")
+  }
+
   get postalCode() {
     return this.f?.get("postalCode");
+  }
+
+  get diploma() {
+    return this.f?.get("diploma");
+  }
+
+  get diplomaInput() {
+    return this.f?.get("diplomaInput");
   }
 
   get cookieName(): string {
@@ -118,5 +152,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   get cookieValue(): string {
     return this.f?.get("cookieValue")?.value;
+  }
+
+  get acceptedFileExt() {
+    return AcceptedFileExtensions;
   }
 }

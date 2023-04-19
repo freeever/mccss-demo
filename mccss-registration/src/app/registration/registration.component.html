@@ -26,23 +26,53 @@
   </div>
   <div class="form-group mb-2 row">
       <div class="col-sm-6">
+          <label for="avatar">{{ 'registration.avatar' | translate }}</label>
+          <input type="file" class="form-control" id="avatar" formControlName="avatarInput" [accept]="acceptedFileExt" (change)="onAvatarFileChange($event)">
+          <!-- Validation error -->
+          <div *ngIf="avatar && isInvalid(avatar)" class="alert alert-danger mt-2">
+              <span *ngIf="avatar?.errors?.['fileSize']">{{ 'err.file.size' | translate : { max: 5 } }}</span>
+              <span *ngIf="avatar?.errors?.['fileType']">{{ 'err.file.type' | translate }}</span>
+          </div>
+      </div>
+      <div class="col-sm-6"></div>
+  </div>
+
+  <div class="form-group mb-2 row">
+      <div class="col-sm-6">
           <label for="email">{{ 'registration.email' | translate }}</label>
           <input type="text" class="form-control" id="email" formControlName="email">
           <!-- Validation error -->
-          <div *ngIf="email?.touched && email?.invalid" class="alert alert-danger mt-1">
+          <div *ngIf="email && isInvalid(email)" class="alert alert-danger mt-2">
             <span *ngIf="email?.errors?.['required']">{{ 'err.registration.email.required' | translate }}</span>
             <span *ngIf="email?.errors?.['email']">{{ 'err.registration.email.invalid' | translate }}</span>
           </div>
       </div>
+
       <div class="col-sm-6">
           <label for="postalCode">{{ 'registration.postal.code' | translate }}</label>
           <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
           <!-- Validation error -->
-          <div *ngIf="postalCode?.touched && postalCode?.invalid" class="alert alert-danger mt-1">
+          <div *ngIf="postalCode && isInvalid(postalCode)" class="alert alert-danger mt-2">
             <span *ngIf="postalCode?.errors?.['required']">{{ 'err.registration.postal.code.required' | translate }}</span>
             <span *ngIf="postalCode?.errors?.['pattern']">{{ 'err.registration.postal.code.invalid' | translate }}</span>
           </div>
       </div>
+    </div>
+
+    <div class="form-group mb-2 row">
+      <div class="col-sm-6">
+        <label for="diploma">{{ 'registration.diploma' | translate }}</label>
+        <input type="file" class="form-control" id="diploma" formControlName="diplomaInput" [accept]="acceptedFileExt" (change)="onDiplomaFileChange($event)">
+        <!-- Validation error -->
+        <div *ngIf="diploma && isInvalid(diploma)" class="alert alert-danger mt-2">
+            <span *ngIf="diploma?.errors?.['fileSize']">{{ 'err.file.size' | translate : [5] }}</span>
+            <span *ngIf="diploma?.errors?.['fileType']">{{ 'err.file.type' | translate }}</span>
+        </div>
+    </div>
+      <div class="col-sm-6"></div>
+    </div>
+
+    <div class="form-group mb-2 row">
       <div class="col-sm-12">
         <button type="submit" class="btn btn-primary px-4 float-end mt-2" [disabled]="!f.valid">
           {{ 'registration.btn.register' | translate }}

@@ -19,8 +19,8 @@ export class UserService {
     return this.httpClient.get(URLs.USER_ENDPOINT) as Observable<User[]>;
   }
 
-  addUser(user: User): Observable<User> {
-    return this.httpClient.post(URLs.USER_ENDPOINT, user) as Observable<User>;
+  addUser(data: FormData): Observable<User> {
+    return this.httpClient.post(URLs.USER_ENDPOINT, data) as Observable<User>;
   }
 
   public setUsers(users: User[]) {
