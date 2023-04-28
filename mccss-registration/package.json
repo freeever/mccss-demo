@@ -23,7 +23,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.2.2",
-    "ngx-cookie": "^6.0.1",
+    "ngx-file-drop": "^15.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

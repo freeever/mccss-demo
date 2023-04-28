@@ -20,9 +20,6 @@ export class User extends BaseModel {
   graduateFrom: string;
   diploma: any;
 
-  cookieName: string;
-  cookieValue: string;
-
   constructor(init? : Partial<User>) {
     super();
     Object.assign(this, init);
@@ -50,9 +47,6 @@ export class User extends BaseModel {
 
       createdOn: new UntypedFormControl(this.createdOn),
       updatedOn: new UntypedFormControl(this.updatedOn),
-
-      cookieName: new UntypedFormControl(this.cookieName),
-      cookieValue: new UntypedFormControl(this.cookieValue)
     });
   }
 
@@ -79,9 +73,6 @@ export class User extends BaseModel {
 
     //   createdOn: v.createdOn,
     //   updatedOn: v.updatedOn,
-
-    //   cookieName: v.cookieName,
-    //   cookieValue: v.cookieValue
     // })
   }
 
