@@ -12,6 +12,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LanguageInterceptor } from './interceptor/language.interceptor';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
         useFactory: httpTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    SharedModule
   ],
   exports: [],
   providers: [

@@ -1,11 +1,11 @@
-export const AcceptedFileExtensions = [
-  '.pdf',
-  '.jpg',
-  '.jpeg',
-  '.png'
+export const avatarAcceptedFileTypes: string[] = [
+  'image/jpeg',
+  'image/png'
 ];
 
-export const SupportedMimeTypes = {
-  PDF: ['application/pdf'],
-  JPG: ['image/jpeg']
-}
+export const diplomaAcceptedFileTypes: string[] = [
+  'image/jpeg',
+  'image/jpeg',
+  'image/png',
+  'application/pdf'
+];

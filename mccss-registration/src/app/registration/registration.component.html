@@ -14,30 +14,26 @@
 </ng-container>
 
 <form novalidate [formGroup]="f" (submit)="registerFn()">
-  <div class="form-group mb-2 row">
+  <div class="form-group mb-4 row">
       <div class="col-sm-6">
           <label for="firstName">{{ 'registration.first.name' | translate }}</label>
           <input type="text" class="form-control" id="firstName" formControlName="firstName">
+          <!-- Validation error -->
+          <div *ngIf="firstName && isInvalid(firstName)" class="alert alert-danger mt-2">
+            <span *ngIf="firstName?.errors?.['required']">{{ 'err.common.required' | translate }}</span>
+          </div>
       </div>
       <div class="col-sm-6">
           <label for="lastName">{{ 'registration.last.name' | translate }}</label>
           <input type="text" class="form-control" id="lastName" formControlName="lastName">
-      </div>
-  </div>
-  <div class="form-group mb-2 row">
-      <div class="col-sm-6">
-          <label for="avatar">{{ 'registration.avatar' | translate }}</label>
-          <input type="file" class="form-control" id="avatar" formControlName="avatarInput" [accept]="acceptedFileExt" (change)="onAvatarFileChange($event)">
           <!-- Validation error -->
-          <div *ngIf="avatar && isInvalid(avatar)" class="alert alert-danger mt-2">
-              <span *ngIf="avatar?.errors?.['fileSize']">{{ 'err.file.size' | translate : { max: 5 } }}</span>
-              <span *ngIf="avatar?.errors?.['fileType']">{{ 'err.file.type' | translate }}</span>
+          <div *ngIf="lastName && isInvalid(lastName)" class="alert alert-danger mt-2">
+            <span *ngIf="lastName?.errors?.['required']">{{ 'err.common.required' | translate }}</span>
           </div>
       </div>
-      <div class="col-sm-6"></div>
   </div>
 
-  <div class="form-group mb-2 row">
+  <div class="form-group mb-4 row">
       <div class="col-sm-6">
           <label for="email">{{ 'registration.email' | translate }}</label>
           <input type="text" class="form-control" id="email" formControlName="email">
@@ -59,26 +55,48 @@
       </div>
     </div>
 
-    <div class="form-group mb-2 row">
-      <div class="col-sm-6">
-        <label for="diploma">{{ 'registration.diploma' | translate }}</label>
-        <input type="file" class="form-control" id="diploma" formControlName="diplomaInput" [accept]="acceptedFileExt" (change)="onDiplomaFileChange($event)">
-        <!-- Validation error -->
-        <div *ngIf="diploma && isInvalid(diploma)" class="alert alert-danger mt-2">
-            <span *ngIf="diploma?.errors?.['fileSize']">{{ 'err.file.size' | translate : [5] }}</span>
-            <span *ngIf="diploma?.errors?.['fileType']">{{ 'err.file.type' | translate }}</span>
-        </div>
+    <div class="form-group mb-4 row">
+      <div class="col-sm-12">
+        <app-file-upload
+            [label]="'registration.profile.picture' | translate"
+            [id]="'avatar'"
+            [accept]="avatarAcceptedFileTypes"
+            [maxFileSize]="1"
+            [formControl]="$any(avatar)"
+            (onFileSelected)="avatarFn($event)"
+        ></app-file-upload>
+      </div>
     </div>
-      <div class="col-sm-6"></div>
+
+    <h4 class="mt-4 mb-4">{{ 'registration.diplomas.title' | translate }}</h4>
+    <hr/>
+    <div class="form-group mb-4 row">
+      <div class="col-sm-12" *ngFor="let diploma of diplomas.controls; let i = index">
+        <app-file-upload
+            label="{{'order.' + (i+1) | translate}} {{'registration.diploma' | translate}}"
+            [id]="'diploma' + i"
+            [accept]="diplomaAcceptedFileTypes"
+            [maxFileSize]="3"
+            [formControl]="$any(diploma)"
+            (onFileSelected)="diplomaFn($event, i)"
+            (onFileDeleted)="deleteDiploma(i)"
+        ></app-file-upload>
+      </div>
+        <div class="col-sm-12">
+          <button class="btn btn-outline-primary px-4 mt-2" *ngIf="canAddDiploma"
+                  type="button" id="addDiploma" (click)="addDiploma()" [disabled]="disableAddDiploma">
+              {{ 'registration.btn.add.diploma' | translate }}
+          </button>
+        </div>
     </div>
 
     <div class="form-group mb-2 row">
       <div class="col-sm-12">
-        <button type="submit" class="btn btn-primary px-4 float-end mt-2" [disabled]="!f.valid">
+        <button type="button" (click)="registerFn()" class="btn btn-primary px-4 float-end mt-2">
           {{ 'registration.btn.register' | translate }}
         </button>
       </div>
-  </div>
+    </div>
 
   <br/>
 
@@ -87,21 +105,47 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">{{ 'registration.id' | translate }}</th>
+      <!-- <th scope="col">{{ 'registration.id' | translate }}</th> -->
       <th scope="col">{{ 'registration.first.name' | translate }}</th>
       <th scope="col">{{ 'registration.last.name' | translate }}</th>
       <th scope="col">{{ 'registration.email' | translate }}</th>
-      <th scope="col">{{ 'registration.postal.code' | translate }}</th>
+      <!-- <th scope="col">{{ 'registration.postal.code' | translate }}</th> -->
+      <th scope="col">{{ 'registration.profile.picture' | translate }}</th>
+      <th scope="col">{{ 'registration.diplomas.title' | translate }}</th>
+      <th scope="col">{{ 'common.actions' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngIf="users$ | async as users">
       <tr *ngFor="let user of users">
-        <th scope="row">{{ user.id }}</th>
+        <!-- <th scope="row">{{ user.id }}</th> -->
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.postalCode }}</td>
+        <!-- <td>{{ user.postalCode }}</td> -->
+        <td>
+            <button type="button" class="btn btn-link" (click)="viewAvatar(user.id, user.avatarFile.contentType);">
+              {{user.avatarFile?.fileName}}
+            </button>
+        </td>
+        <td>
+            <ng-container *ngIf="user.diplomaFiles && user.diplomaFiles.length > 0">
+                <span *ngFor="let diploma of user.diplomaFiles">
+                  <button type="button" class="btn btn-link" (click)="viewDiploma(user.id, diploma.id, diploma.contentType)">
+                    {{diploma.fileName}}
+                  </button><br/>
+                </span>
+            </ng-container>
+        </td>
+        <td>
+          <span (click)="confirmDelete(user.id)" class="deleteLink">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+            </svg>
+          </span>
+        </td>
+
       </tr>
 
     </ng-container>

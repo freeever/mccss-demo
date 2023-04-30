@@ -1,22 +1,44 @@
 {
+  "common.actions": "Actions",
+
+  "btn.common.confirm": "Confirmer",
+  "btn.common.cancel": "Annuler",
+
   "nav.title": "Barre de navigation",
   "nav.home": "Maison",
   "nav.features": "Fonctionnalités",
   "nav.contactus": "Contactez-nous",
 
-  "site.title": "MCCSS Interview Demo",
   "registration.id": "Identifiant",
   "registration.title": "Inscription",
   "registration.first.name": "Prénom",
   "registration.last.name": "nom de famille",
   "registration.email": "E-mail",
   "registration.postal.code": "code postal",
+
+  "registration.profile.picture": "Image de profil",
+  "registration.diplomas.title": "Diplômes",
+  "registration.diploma": "Diplôme",
+  "registration.btn.add.diploma": "Ajouter un diplôme",
+
   "registration.btn.register": "S'inscrire",
 
   "registration.save.success": "Merci pour l'inscription !",
 
+  "file.upload.drag.and.drop": "Faites glisser et déposez votre fichier ici ou",
+  "file.upload.choose.a.file": "Choisissez un fichier",
+
+  "order.1": "D'abord",
+  "order.2": "Seconde",
+  "order.3": "Troisième",
+
+  "err.common.required": "Requis",
+
   "err.registration.email.required": "L'e-mail est requis",
   "err.registration.email.invalid": "Le courriel est invalide",
   "err.registration.postal.code.required": "Le code postal est requis",
-  "err.registration.postal.code.invalid": "Le code postal est invalide"
+  "err.registration.postal.code.invalid": "Le code postal est invalide",
+
+  "err.file.size": "Le fichier ne peut pas dépasser {{max}} Mo",
+  "err.file.type": "type de fichier invalide"
 }

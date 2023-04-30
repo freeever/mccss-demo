@@ -1,4 +1,9 @@
 {
+  "common.actions": "Actions",
+
+  "btn.common.confirm": "Confirm",
+  "btn.common.cancel": "Cancel",
+
   "nav.title": "Navbar",
   "nav.home": "Home",
   "nav.features": "Features",
@@ -9,19 +14,33 @@
   "registration.first.name": "First Name",
   "registration.last.name": "Last Name",
   "registration.email": "Email",
-  "registration.avatar": "Avatar",
   "registration.postal.code": "Postal Code",
+
+  "registration.profile.picture": "Profile picture",
+  "registration.diplomas.title": "Diplomas",
   "registration.diploma": "Diploma",
+  "registration.btn.add.diploma": "Add Diploma",
 
   "registration.btn.register": "Register",
 
   "registration.save.success": "Thanks for registration!",
+
+  "registration.delete.confirm": "Are you sure you want to delete this user?",
+
+  "file.upload.drag.and.drop": "Drag and drop your file here or",
+  "file.upload.choose.a.file": "Choose a file",
+
+  "order.1": "First",
+  "order.2": "Second",
+  "order.3": "Third",
+
+  "err.common.required": "Required",
 
   "err.registration.email.required": "Email is required",
   "err.registration.email.invalid": "Email is invalid",
   "err.registration.postal.code.required": "Postal code is required",
   "err.registration.postal.code.invalid": "Postal code is invalid",
 
-  "err.file.size": "File cannot exceed {max} MB",
+  "err.file.size": "File cannot exceed {{max}} MB",
   "err.file.type": "Invalid file type"
 }

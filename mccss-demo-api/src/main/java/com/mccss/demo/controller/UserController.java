@@ -1,12 +1,16 @@
 package com.mccss.demo.controller;
 
+import com.mccss.demo.dto.FileInfoDto;
 import com.mccss.demo.dto.UserDto;
 import com.mccss.demo.exception.MccssValidationException;
 import com.mccss.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
@@ -56,36 +56,57 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/v1/cookie/add/{key}/{value}")
-    public ResponseEntity<List<String>> addCookie(HttpServletResponse response,
-                                                  @PathVariable String key, @PathVariable String value) {
-        List<String> cookies = new ArrayList<>();
-        Cookie newCookie = new Cookie(key, value);
-        newCookie.setMaxAge(600);
-        response.addCookie(newCookie);
-
-        return ResponseEntity.ok(cookies);
+    @DeleteMapping("/v1/users/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable() Long id) {
+        log.info("Delete user [id={}]", id);
+        this.userService.delete(id);
+        return ResponseEntity.ok(true);
     }
 
-    @GetMapping("/v1/cookie")
-    public ResponseEntity<List<String>> getAllCookies(HttpServletRequest request) {
-        List<String> cookies = new ArrayList<>();
-        Arrays.stream(request.getCookies())
-                .forEach(cookie -> {
-                    cookies.add(cookie.getName() + "==" + cookie.getValue());
-                });
+    /**
+     * Retrieve the avatar file.
+     * @param id User Id
+     * @return avatar file
+     */
+    @GetMapping("/v1/users/avatar/{id}")
+    public ResponseEntity<byte[]> findAvatar(@PathVariable("id") Long id)
+            throws SQLException {
+        log.info("Getting avatar file...");
 
-        return ResponseEntity.ok(cookies);
+        FileInfoDto file = this.userService.findAvatar(id);
+
+        return returnFile(file);
     }
 
-    @GetMapping("/v1/cookie/delete/{key}")
-    public ResponseEntity<List<String>> deleteCookie(HttpServletResponse response, @PathVariable String key) {
-        List<String> cookies = new ArrayList<>();
-        Cookie newCookie = new Cookie(key, null);
-        newCookie.setMaxAge(0);
-        response.addCookie(newCookie);
+    /**
+     * Retrieve the diploma file.
+     * @param id Registration form Id
+     * @param diplomaId File Id
+     * @return diploma file
+     */
+    @GetMapping("/v1/users/diploma/{id}/{diplomaId}")
+    public ResponseEntity<byte[]> findDiploma(@PathVariable("id") Long id, @PathVariable("diplomaId") Long diplomaId)
+            throws SQLException {
+        log.info("Getting diploma file...");
 
-        return ResponseEntity.ok(cookies);
+        FileInfoDto file = this.userService.findDiploma(id, diplomaId);
+
+        return returnFile(file);
+    }
+
+    private static ResponseEntity<byte[]> returnFile(FileInfoDto file) {
+        if (file != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getFileName());
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(file.getFileSize())
+                    .contentType(MediaType.parseMediaType(file.getContentType()))
+                    .body(file.getFile());
+        }
+
+        return ResponseEntity.ok().body(null);
     }
 }
 

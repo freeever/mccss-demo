@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 
-export function fileSizeValidator(maxSizeInMB: number) {
+export function FileSizeValidator(maxSizeInMB: number) {
   return function(control: AbstractControl): { [key: string]: boolean } | null {
     if (control.value) {
       const file = control.value as File;
