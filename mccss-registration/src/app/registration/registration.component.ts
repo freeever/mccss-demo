@@ -77,7 +77,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   confirmDelete(id: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {  }
+      data: { message: 'registration.delete.confirm' }
     });
 
     dialogRef.afterClosed().subscribe(result => {

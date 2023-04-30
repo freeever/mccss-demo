@@ -22,11 +22,11 @@ export class ConfirmDialogComponent {
   }
 
   get title() {
-    return this.data?.title;
+    return this.data?.title ? this.data.title : 'common.confirmation.title';
   }
 
   get message() {
-    return this.data?.message;
+    return this.data?.message ? this.data.message : 'common.confirmation.message';
   }
 
   get confirmLabel() {

@@ -1,5 +1,7 @@
 {
   "common.actions": "Actions",
+  "common.confirmation.title": "Confirmation",
+  "common.confirmation.message": "Are you sure?",
 
   "btn.common.confirm": "Confirm",
   "btn.common.cancel": "Cancel",
